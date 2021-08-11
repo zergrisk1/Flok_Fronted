@@ -13,8 +13,7 @@
 
 			<div id="waveform" ref="waveform" style="height: ">
 			</div>
-			<div id="wave-timeline" ref="wave-timeline">
-				<!--时间轴 -->
+			<!-- <div id="wave-timeline" ref="wave-timeline">
 			</div>
 			<div>
 				<el-button type="primary" @click="rew">后退</el-button>
@@ -48,25 +47,20 @@
 						
 					</el-popover>
 				</el-tooltip>
-				<el-button id="hide" @click="ff()">
-					隐藏
-				</el-button>
-				<!-- <el-tooltip class="item" effect="dark" content="播放倍速" placement="bottom">
-					<el-popover placement="top" width="220" trigger="click" style="margin-left: 10px">
-						<el-input-number v-model="ds" width="180" :precision="2" :step="0.1" :min="0.5" :max="2"
-							@change="DoubleSpeed" />
-						<el-button slot="reference" round>
-							{{ ds +' X' }}
-						</el-button>
-					</el-popover>
-				</el-tooltip> -->
-			</div>
+				
+				
+			</div> -->
+			<el-button id="hide" @click="ff()">
+				隐藏
+			</el-button>
 		</el-card>
 		<el-scrollbar>
 			<el-row :gutter="20">
-				<el-col :span="4" v-for="item in data" :key="item.id" style="height:50px">
+				<el-col :span="4" v-for="item in data" :key="item.id" style="height:100px">
 					<el-card :body-style="{ padding: '0px 0px' }">
+						<img src="./img/sound_icon.png" style="max-width:100px;height:50px;margin-bottom: 0px;" class="head_pic" />
 						<div slot="header"></div>
+						
 						<!-- here to fix text -->
 						<span style="font-size: 15px;">{{item.name}}</span>
 						<el-button size="mini" icon="el-icon-zoom-in" style="padding: 1px 1px;" type="text"
@@ -194,27 +188,27 @@
 							progressColor: 'gray',
 							backend: 'MediaElement',
 							// 音频播放时间轴
-							mediaControls: false,
+							mediaControls: true,
 							// 播放音频的速度
 							audioRate: '1',
 							// 插件：此教程配置了光标插件和时间轴插件
-							plugins: [
-								// 光标插件
-								CursorPlugin.create({
-									showTime: true,
-									opacity: 1,
-									customShowTimeStyle: {
-										'background-color': '#000000',
-										color: '#fff',
-										padding: '2px',
-										'font-size': '10px',
-									}
-								}),
-								// 时间轴插件
-								Timeline.create({
-									container: '#wave-timeline'
-								}),
-							]
+							// plugins: [
+							// 	// 光标插件
+							// 	CursorPlugin.create({
+							// 		showTime: true,
+							// 		opacity: 1,
+							// 		customShowTimeStyle: {
+							// 			'background-color': '#000000',
+							// 			color: '#fff',
+							// 			padding: '2px',
+							// 			'font-size': '10px',
+							// 		}
+							// 	}),
+							// 	// 时间轴插件
+							// 	// Timeline.create({
+							// 	// 	container: '#wave-timeline'
+							// 	// }),
+							// ]
 						});
 						this.wavesurfer.on('error', function(e) {
 							console.warn(e);

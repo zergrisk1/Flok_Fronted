@@ -106,7 +106,7 @@
           >
             <el-table-column property="src" label="图片" width="120">
               <template slot-scope="scope">
-                <img src="./sound_icon.png" style="max-width:100px;height:25px;margin-bottom: 0px;" class="head_pic" />
+                <img src="./img/sound_icon.png" style="max-width:100px;height:25px;margin-bottom: 0px;" class="head_pic" />
               </template>
             </el-table-column>
             <el-table-column property="name" label="图片名"></el-table-column>
@@ -386,9 +386,9 @@ export default {
         })
     },
     clickOneNote(note) {
-      if (this.noteDatasetInfo.note_type_id === '3d1fa034aa0b4ffe8f7198c027cf959e') {
+      if (this.noteDatasetInfo.note_type_id === '669d056db83c4280b5a3b72d4f92be35') {
         bus.$emit('sendToClassify', note)
-      } else if (this.noteDatasetInfo.note_type_id === '822e2bc74cb749d1b617162a05dfd8fa') {
+      } else if (this.noteDatasetInfo.note_type_id === 'a030fd61081c4f6e8acf096b5718edec') {
         bus.$emit('sendToDetection', note)
       } else if (this.noteDatasetInfo.note_type_id === '3') {
         bus.$emit('sendToSegmentation', note)

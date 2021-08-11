@@ -21,9 +21,9 @@
 		</el-row>
 		<div class="panel-body" style="margin-top:20px">
 			<el-card>
-			<div id="waveform" ref="waveformm" >
+			<div id="waveformm" ref="waveformm" >
 			</div>
-			<div id="wave-timelinee" ref="wave-timeline">
+			<div id="wave-timelinee" ref="wave-timelinee">
 			</div>
 			</el-card>
 			<div class="demo">
@@ -69,9 +69,18 @@
 							<el-button slot="reference" circle>
 								音量
 							</el-button>
-							
+								
 						</el-popover>
 					</el-tooltip>
+					<div style=" display: flex;">
+					<img src="./img/zoom_minus.png" style="max-width:100px;height:50px;margin-right: 10px; " class="head_pic" />
+					<el-tooltip content="放大缩小">
+						
+					<el-slider v-model="zoomval" id="zoomslider"  style="flex: 1;" class="zoomslider" @change="zzoom"/>
+					
+					</el-tooltip>
+					<img src="./img/zoom_plus.png" style="max-width:100px;height:50px;margin-left: 10px;" class="head_pic" />
+					</div>
 					<!-- <el-tooltip class="item" effect="dark" content="播放倍速" placement="bottom">
 						<el-popover placement="top" width="220" trigger="click" style="margin-left: 10px">
 							<el-input-number v-model="ds" width="180" :precision="2" :step="0.1" :min="0.5" :max="2"
@@ -120,6 +129,7 @@
 				// 播放倍速
 				ds: 1.00,
 				// 设置音量
+				zoomval:0,
 				value: 0,
 				current_tag: {
 					label_id: '',
@@ -250,14 +260,14 @@
 						if (this.wavesurfer == null) {
 							this.wavesurfer = WaveSurfer.create({
 								// 应该在其中绘制波形的CSS选择器或HTML元素。这是唯一必需的参数。
-								container: this.$refs.waveformm,
+								container: document.querySelector('#waveformm'),
 								// 光标的填充颜色，指示播放头的位置。
 								cursorColor: 'white',
 								// 更改波形容器的背景颜色。
 								backgroundColor: 'black',
 								// 光标后的波形填充颜色。
 								waveColor: 'white',
-								
+								height: '200',
 								// 光标后面的波形部分的填充色。当progressColor和waveColor相同时，完全不渲染进度波
 								progressColor: 'gray',
 								backend: 'MediaElement',
@@ -289,6 +299,7 @@
 							this.wavesurfer.on('error', function(e) {
 								console.warn(e);
 							});
+							
 						}
 						
 						this.wavesurfer.load(path);
@@ -339,6 +350,13 @@
 			// 指定播放
 			appointPlay() {
 				this.wavesurfer.play([this.appointTime, ])
+			},
+			zzoom(val){
+				
+					console.log("here")
+				    this.wavesurfer.zoom(this.zoomval/0.01);
+					
+					console.log(this.zoomval/0.01)
 			},
 			preCarouselChange(key1, key2) {
 				var info = {}
@@ -433,6 +451,7 @@
 		},
 		mounted() {
 			// this.canvas = new fabric.Canvas('canvas', {})
+			
 		},
 	}
 </script>
