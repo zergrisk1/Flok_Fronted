@@ -25,7 +25,15 @@
               :label="item.label+'('+item.number+')'"
               :name="item.name"
             ></el-tab-pane>
-            <ImageList ref="imageList" :show_type="show_type" @edit="startNote" :noteDatasetInfo="main_info"></ImageList>
+            <ImageList 
+			 v-if="main_info.note_dataset_type_id==='27bbe41cca3e43d1b8515b35a6ffb1ab'" 
+			 ref="dataList" :show_type="show_type" @edit="startNote" :noteDatasetInfo="main_info">
+			 </ImageList>
+			 <AudioList
+			  v-if="main_info.note_dataset_type_id==='4624cf7bc59c4636a89a7ee2fbfcf931'" 
+			  ref="dataList" :show_type="show_type" @edit="startNote" :noteDatasetInfo="main_info">
+			  </AudioList>
+			 
           </el-tabs>
           <el-button size="mini" @click="synchronization()" style="position: absolute;right:120px;top:5px;">
             <i class="el-icon-cloudy el-icon--left"></i>同步数据源
@@ -36,42 +44,69 @@
         </div>
         <!-- 下面如果改成v-if就无法监控变量 -->
         <div v-show="noting">
-          <ClassifyPage
+          <AudioClassifyPage
             v-if="main_info.note_type_id==='669d056db83c4280b5a3b72d4f92be35'"
             :noteDatasetInfo="main_info"
-            ref="classifyPage"
+            ref="audioclassifyPage"
             :start_img="start_img"
-          ></ClassifyPage>
-          <DetectionPage
+          ></AudioClassifyPage>
+          <AudioSegmentationPage
             v-if="main_info.note_type_id==='a030fd61081c4f6e8acf096b5718edec'"
             :noteDatasetInfo="main_info"
-            ref="detectionPage"
+            ref="audiosegmentationPage"
             :start_img="start_img"
-          ></DetectionPage>
+          ></AudioSegmentationPage>
+		  <ImageClassifyPage
+		    v-if="main_info.note_type_id==='3d1fa034aa0b4ffe8f7198c027cf959e'"
+		    :noteDatasetInfo="main_info"
+		    ref="imageclassifyPage"
+		    :start_img="start_img"
+		  ></ImageClassifyPage>
+		  <ImageDetectionPage
+		    v-if="main_info.note_type_id==='822e2bc74cb749d1b617162a05dfd8fa'"
+		    :noteDatasetInfo="main_info"
+		    ref="imagedetectionPage"
+		    :start_img="start_img"
+		  ></ImageDetectionPage>
         </div>
       </el-main>
       <el-aside width="30%">
-        <NoteList :noteDatasetInfo="main_info" ref="noteList" :noting="noting"></NoteList>
+        <ImageNoteList 
+		v-if="main_info.note_dataset_type_id==='27bbe41cca3e43d1b8515b35a6ffb1ab'" 
+		:noteDatasetInfo="main_info" ref="noteList" :noting="noting">
+		</ImageNoteList>
+		<AudioNoteList
+		v-if="main_info.note_dataset_type_id==='4624cf7bc59c4636a89a7ee2fbfcf931'" 
+		:noteDatasetInfo="main_info" ref="noteList" :noting="noting">
+		</AudioNoteList>
       </el-aside>
     </el-container>
   </el-container>
 </template>
 <script>
 // import DataList from "./DataList.vue";
-import NoteList from './NoteList.vue'
-import ClassifyPage from './ClassifyPage'
-import ImageList from './ImageList.vue'
-import DetectionPage from './DetectionPage.vue'
+import AudioNoteList from './Audio/AudioNoteList.vue'
+import AudioClassifyPage from './Audio/AudioClassifyPage'
+import AudioList from './Audio/AudioList.vue'
+import AudioSegmentationPage from './Audio/AudioSegmentationPage.vue'
+import ImageNoteList from './Image/ImageNoteList.vue'
+import ImageClassifyPage from './Image/ImageClassifyPage'
+import ImageList from './Image/ImageList.vue'
+import ImageDetectionPage from './Image/ImageDetectionPage.vue'
 import { alertBox } from '@/utils/alertBox.js'
 import bus from "@/views/project/DataNote/bus";
 
 export default {
   name: 'dataNote',
   components: {
-    NoteList,
-    ClassifyPage,
+    ImageNoteList,
+    ImageClassifyPage,
     ImageList,
-    DetectionPage,
+    ImageDetectionPage,
+	AudioNoteList,
+	AudioClassifyPage,
+	AudioList,
+	AudioSegmentationPage,
   },
   data() {
     return {
@@ -83,7 +118,7 @@ export default {
       title_list: [],
       show_type: 'first',
       start_img: {},
-      page_name : '全部图片',
+      page_name : '全部数据',
       image_name : ''
     }
   },
@@ -118,12 +153,12 @@ export default {
     refresh() {
       alertBox('已刷新', 'info', this)
       this.getData(this.id)
-      this.$refs.imageList.refresh
-      this.$refs.noteList.refresh()
+      this.$refs.dataList.refresh
+      this.$refs.noteList.refresh
       this.noting = false
       this.activeName='first'
       this.show_type='first'
-      this.page_name='全部图片'
+      this.page_name='全部数据'
       this.image_name = ''
     },
     startNote(pic) {
@@ -141,7 +176,7 @@ export default {
         data.note_dataset_id = this.id
         this.activeName='third'
         this.show_type='third'
-        this.page_name = '未标注图片'
+        this.page_name = '未标注数据'
       }
       data.show_type=this.show_type
       this.$api.data_note.start_note(data).then((response) => {
@@ -151,7 +186,7 @@ export default {
             alertBox(alert_data.info, 'warning', that)
             this.activeName='first'
             this.show_type='first'
-            this.page_name = '全部图片'
+            this.page_name = '全部数据'
           }else{
             alertBox(alert_data.info, 'error', that, '加载失败')
           }
@@ -165,9 +200,9 @@ export default {
     },
     handleClick(tab, event) {
       this.show_type = tab.name
-      if(this.show_type==='first')this.page_name = '全部图片'
-      if(this.show_type==='second')this.page_name = '已标注图片'
-      if(this.show_type==='third')this.page_name = '未标注图片'
+      if(this.show_type==='first')this.page_name = '全部数据'
+      if(this.show_type==='second')this.page_name = '已标注数据'
+      if(this.show_type==='third')this.page_name = '未标注数据'
     },
     //同步
     synchronization() {
