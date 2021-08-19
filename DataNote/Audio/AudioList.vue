@@ -85,6 +85,7 @@
 		alertBox
 	} from '@/utils/alertBox.js'
 	import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
+	import bus from './bus.js'
 	export default {
 		name: 'AudioList',
 		components: {
@@ -146,6 +147,7 @@
 						data.with_note = false
 					}
 				} else var data = params
+				console.log(data)
 				this.$api.data_note.get_pictures(data).then((response) => {
 					if (response.data.msg === 'error') {
 						alertBox(response.data.data, 'error', that, '加载失败')
@@ -158,9 +160,11 @@
 					if (that.currentPage >= that.total_page_num) that.currentPage = that.total_page_num
 					that.data.pop()
 				})
+				console.log(this.show_type)
 			},
 			// 对某张图片点击了编辑
 			editOne(pic) {
+				console.log(pic)
 				let that = this
 				alertBox('开始标注', 'info', this)
 				this.$emit('edit', pic)

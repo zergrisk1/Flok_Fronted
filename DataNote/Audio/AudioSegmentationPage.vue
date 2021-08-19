@@ -108,7 +108,7 @@
 	import Timeline from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.js'
 	import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.js';
 	export default {
-		name: 'DetectionPage',
+		name: 'AudioSegmentationmPage',
 		props: {
 			noteDatasetInfo: {
 				type: Object,
@@ -806,15 +806,20 @@
 					that.changeTag = true
 					that.taglabel = {...note}
 					console.log(that.taglabel);
-					that.wavesurfer.regions.getCurrentRegion()['tag'] = that.taglabel.name;
-					that.wavesurfer.regions.getCurrentRegion()['tag_id'] = that.taglabel.id;
+					// that.wavesurfer.regions.getCurrentRegion()['tag'] = that.taglabel.name;
+					// that.wavesurfer.regions.getCurrentRegion()['tag_id'] = that.taglabel.id;
 					var RGBA = "rgba(" + parseInt("0x" + that.taglabel.color.slice(1, 3)) + "," +
 						parseInt("0x" + that.taglabel.color.slice(3, 5)) + "," + parseInt("0x" +
 							that.taglabel.color.slice(5, 7)) + ",0.2)";
 					that.wavesurfer.regions.getCurrentRegion()['color'] = RGBA;
 					//console.log(that.wavesurfer.regions.getCurrentRegion()['element']['title'])
 					//that.wavesurfer.regions.getCurrentRegion()['element']['title']=that.taglabel.name ;
-					that.wavesurfer.load(that.baseurl + that.currentImg.src);
+					var newregion={...that.wavesurfer.regions.getCurrentRegion()};
+					this.wavesurfer.regions.getCurrentRegion().remove();
+					var  t =  this.wavesurfer.regions.add(newregion);
+					t['tag_id'] = that.taglabel.id;
+					t['tag'] = that.taglabel.name;
+					//that.wavesurfer.load(that.baseurl + that.currentImg.src);
 
 				} else {
 					alertBox('请选定时间段', 'warning', this);
