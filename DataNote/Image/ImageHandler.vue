@@ -147,7 +147,7 @@ export default {
       console.log(pic)
       if (typeof pic != 'undefined') {
         // 点击图片
-        data.pic_id = pic.id
+        data.data_id = pic.id
         order = pic.order
         this.image_name = pic.name
       } else {

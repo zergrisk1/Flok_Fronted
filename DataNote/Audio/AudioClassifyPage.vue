@@ -128,7 +128,7 @@
 	</div>
 </template>
 <script>
-	import bus from './bus.js'
+	import bus from '../bus.js'
 	import WaveSurfer from 'wavesurfer.js'
 	import CursorPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.cursor.js'
 	import Timeline from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.js'
@@ -237,7 +237,7 @@
 				data.note_infos = []
 				data.note_infos.push(this.current_tag)
 				data.note_infos = JSON.stringify(data.note_infos)
-				data.picture_id = this.currentImg.id
+				data.data_id = this.currentImg.id
 				data = this.$qs.stringify(data)
 				//添加标签
 				this.$api.data_note.save_note_info(data).then((response) => {
@@ -500,7 +500,7 @@
 			getDetailInfo(img_id) {
 				let that = this
 				var data = {
-					picture_id: img_id
+					data_id: img_id
 				}
 				this.$api.data_note.get_note_info(data).then((response) => {
 					if (response.data.msg === 'error') {

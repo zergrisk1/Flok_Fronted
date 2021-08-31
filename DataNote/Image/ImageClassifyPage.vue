@@ -128,7 +128,7 @@ export default {
       data.note_infos = []
       data.note_infos.push(this.current_tag)
       data.note_infos = JSON.stringify(data.note_infos)
-      data.picture_id = this.currentImg.id
+      data.data_id = this.currentImg.id
       data = this.$qs.stringify(data)
       //添加标签
       this.$api.data_note.save_note_info(data).then((response) => {
@@ -231,7 +231,7 @@ export default {
     },
     getDetailInfo(img_id) {
       let that = this
-      var data = { picture_id: img_id }
+      var data = { data_id: img_id }
       this.$api.data_note.get_note_info(data).then((response) => {
         if (response.data.msg === 'error') {
           alertBox(response.data.data, 'error', that, '列表加载失败')

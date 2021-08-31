@@ -241,7 +241,7 @@
 				}
 				if (that.check) return
 				data.note_infos = JSON.stringify(data.note_infos)
-				data.picture_id = this.currentImg.id
+				data.data_id = this.currentImg.id
 				data = this.$qs.stringify(data)
 				//添加标签
 				this.$api.data_note.save_note_info(data).then((response) => {
@@ -444,8 +444,6 @@
 								that.taglabel.name ='未标注';
 							}else{
 							that.taglabel.name =x['tag'] ;
-							var y = document.getElementByClassName('wavesurfer-region')
-							console.log(y)
 							}
 							that.changeTag = true;
 						});
@@ -486,7 +484,7 @@
 					let that = this;
 					this.wavesurfer.regions.clear();
 					var data = {
-						picture_id: that.currentImg.id
+						data_id: that.currentImg.id
 					}
 					that.$api.data_note.get_note_info(data).then((response) => {
 						if (response.data.msg === 'error') {
@@ -590,6 +588,7 @@
 				let index = this.currentImg.order //% this.group_num
 				if (key1 === 2) {
 					console.log('向右滑动，下一个图片')
+					console.log(src)
 					// this.regionlist[path] = {
 					// 	...this.wavesurfer.regions.list
 					// };
@@ -602,6 +601,7 @@
 				}
 				if (key1 === 0) {
 					console.log('向左滑动，上一个图片')
+					console.log(src)
 					// this.regionlist[path] = {
 					// 	...this.wavesurfer.regions.list
 					// };

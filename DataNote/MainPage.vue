@@ -2,7 +2,6 @@
   <div>
     <ImageHandler
       v-if="main_info.note_dataset_type_id==='27bbe41cca3e43d1b8515b35a6ffb1ab'"
-	  
       :main_info="main_info"
       ref="imageHandler"
     ></ImageHandler>
