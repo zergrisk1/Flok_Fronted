@@ -5,130 +5,68 @@
 				<i class="el-icon-discount" round>标注结果：</i>
 			</el-tag>
 			<!-- 多标签标注<el-tag
-        size="medium"
-        label="asa"
-        :key="tag"
-        v-for="tag in dynamicTags"
-        closable
-        :disable-transitions="false"
-        @close="handleClose(tag)">
-        {{tag}}
       </el-tag>-->
 			<!-- 单标签标注-->
-			<!-- <el-tag type size="medium" :color="current_tag.color">{{current_tag.name}}</el-tag> -->
 			<el-tag type size="medium" v-if="current_tag.name">{{current_tag.name}}</el-tag>
 			<el-button size="mini" style="float:right" type="primary" @click="save">保存当前标注</el-button>
 		</el-row>
 		<div class="panel-body" style="margin-top:20px">
 			<el-card>
-			<div style="position: relative;" id="waveformm" ref="waveformm" >
-				<div id="wave-timelinee" ref="wave-timelinee">
-				</div>
-			</div>
-			<div style="margin-top: 30px;">
-				<div style=" display: flex;">
-					<el-button style="height: 40px;margin-right:3px ;" type="primary" @click="rew">后退</el-button>
-					<el-button style="height: 40px;margin-right:3px ;" type="primary" @click="speek">前进</el-button>
-					<el-button style="height: 40px;margin-right:10px ;" type="primary" @click="replay">重放
-					</el-button>
-					<el-tooltip style="margin-right:200px ;" class="item" effect="dark" content="指定播放"
-						placement="bottom">
-						<el-popover placement="top" width="200" trigger="click">
-							<el-input v-model="appointTime" placeholder="请输入内容" class="input-with-select">
-								<el-button slot="append" @click="appointPlay">播放</el-button>
-							</el-input>
-							<el-button style="color: #409EFF;" slot="reference">
-								指定播放
-							</el-button>
-						</el-popover>
-					</el-tooltip>
-					<div style=" display: flex;flex:1">
-						<img src="./img/zoom_minus.png" style="max-width:100px;height:50px;margin-right: 10px; "
-							class="head_pic" />
-						<el-tooltip content="放大缩小">
-			
-							<el-slider v-model="zoomval" id="zoomslider" style="flex: 1;" class="zoomslider"
-								@change="zzoom" />
-			
-						</el-tooltip>
-						<img src="./img/zoom_plus.png" style="max-width:100px;height:50px;margin-left: 10px;"
-							class="head_pic" />
+				<div style="position: relative;" id="waveformm" ref="waveformm">
+					<div id="wave-timelinee" ref="wave-timelinee">
 					</div>
 				</div>
+				<div style="margin-top: 30px;">
+					<div style=" display: flex;">
+						<el-button style="height: 40px;margin-right:3px ;" type="primary" @click="rew">后退</el-button>
+						<el-button style="height: 40px;margin-right:3px ;" type="primary" @click="speek">前进</el-button>
+						<el-button style="height: 40px;margin-right:10px ;" type="primary" @click="replay">重放
+						</el-button>
+						<el-tooltip style="margin-right:200px ;" class="item" effect="dark" content="指定播放"
+							placement="bottom">
+							<el-popover placement="top" width="200" trigger="click">
+								<el-input v-model="appointTime" placeholder="请输入内容" class="input-with-select">
+									<el-button slot="append" @click="appointPlay">播放</el-button>
+								</el-input>
+								<el-button style="color: #409EFF;" slot="reference">
+									指定播放
+								</el-button>
+							</el-popover>
+						</el-tooltip>
+						<div style=" display: flex;flex:1">
+							<img src="./img/zoom_minus.png" style="max-width:100px;height:50px;margin-right: 10px; "
+								class="head_pic" />
+							<el-tooltip content="放大缩小">
 
-			</div>
+								<el-slider v-model="zoomval" id="zoomslider" style="flex: 1;" class="zoomslider"
+									@change="zzoom" />
+
+							</el-tooltip>
+							<img src="./img/zoom_plus.png" style="max-width:100px;height:50px;margin-left: 10px;"
+								class="head_pic" />
+						</div>
+					</div>
+
+				</div>
 			</el-card>
 			<div class="demo">
-				
+
 				<el-carousel ref="carousel" :initial-index="1" indicator-position="none" :autoplay="false"
 					arrow="always" style="width:810px" height="50px" @change="preCarouselChange">
-					
-					
+
+
 					<el-carousel-item v-for="item in 3" :key="item">
-						
+
 					</el-carousel-item>
-					<!-- <canvas id="canvas" :width="width" :height="height" >
-						
-					</canvas> -->
-					
 				</el-carousel>
-				<!-- <div>
-					<el-button type="primary" @click="rew">后退</el-button>
-					<el-button type="primary" @click="plays">
-						<i class="el-icon-video-play"></i>
-						播放 /
-						<i class="el-icon-video-pausee"></i>
-						暂停
-					</el-button>
-					<el-button type="primary" @click="speek">前进</el-button>
-					<el-button type="primary" @click="replay">重放</el-button>
-					<el-tooltip class="item" effect="dark" content="指定播放" placement="bottom">
-						<el-popover placement="top" width="200" trigger="click">
-							<el-input v-model="appointTime" placeholder="请输入内容" class="input-with-select">
-								<el-button slot="append" @click="appointPlay">播放</el-button>
-							</el-input>
-							<el-button slot="reference" circle>
-								指定播放
-							</el-button>
-						</el-popover>
-					</el-tooltip>
-					<span style="border: 2px solid #2f4f4f;margin-left: 8px;margin-right: 4px" />
-					<el-tooltip class="item" effect="dark" content="音量" placement="bottom">
-						<el-popover placement="top-start" trigger="click" style="min-width: 38px;margin-left: 10px">
-							<div class="block" style="width: 42px">
-								<el-slider v-model="value" vertical height="100px" @change="setVolume" />
-							</div>
-							<el-button slot="reference" circle>
-								音量
-							</el-button>
-								
-						</el-popover>
-					</el-tooltip>
-					<div style=" display: flex;">
-					<img src="./img/zoom_minus.png" style="max-width:100px;height:50px;margin-right: 10px; " class="head_pic" />
-					<el-tooltip content="放大缩小">
-						
-					<el-slider v-model="zoomval" id="zoomslider"  style="flex: 1;" class="zoomslider" @change="zzoom"/>
-					
-					</el-tooltip>
-					<img src="./img/zoom_plus.png" style="max-width:100px;height:50px;margin-left: 10px;" class="head_pic" />
-					</div> -->
-					<!-- <el-tooltip class="item" effect="dark" content="播放倍速" placement="bottom">
-						<el-popover placement="top" width="220" trigger="click" style="margin-left: 10px">
-							<el-input-number v-model="ds" width="180" :precision="2" :step="0.1" :min="0.5" :max="2"
-								@change="DoubleSpeed" />
-							<el-button slot="reference" round>
-								{{ ds +' X' }}
-							</el-button>
-						</el-popover>
-					</el-tooltip> -->
-				</div>
+
 			</div>
 		</div>
 	</div>
+	</div>
 </template>
 <script>
-	import bus from '../bus.js'
+	import bus from './bus.js'
 	import WaveSurfer from 'wavesurfer.js'
 	import CursorPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.cursor.js'
 	import Timeline from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.js'
@@ -161,7 +99,7 @@
 				// 播放倍速
 				ds: 1.00,
 				// 设置音量
-				zoomval:0,
+				zoomval: 0,
 				value: 0,
 				current_tag: {
 					label_id: '',
@@ -181,24 +119,17 @@
 			}
 		},
 		watch: {
-			// current_tag() {},
-			// width() {
-			// 	this.canvas.setWidth(this.width)
-			// },
-			// height() {
-			// 	this.canvas.setHeight(this.height)
-			// },
 			noteDatasetInfo(newVal) {
 				this.noteDatasetInfo = newVal
 			},
 			start_img(newVal) {
-				console.log("start_img!")
-				console.log(newVal)
+				//console.log("start_img!")
+				// console.log(newVal)
 				this.start_img = newVal
 				this.currentImg = newVal
 				this.currentImg.offset = newVal.order
 				this.currentImg.order = newVal.order % this.group_num
-				this.src = this.currentImg.src	
+				this.src = this.currentImg.src
 				this.showImage(this.src)
 				this.getDetailInfo(newVal.id)
 				this.sendToNote()
@@ -217,6 +148,7 @@
 					if (instruct.type === 'changeImg') {
 						that.currentImg = {
 							offset: instruct.args1.offset,
+						
 							order: instruct.args1.order,
 							id: instruct.args1.id,
 							src: instruct.args1.src,
@@ -306,7 +238,7 @@
 					}
 					return secondsStr;
 				};
-				
+
 				function timeInterval(pxPerSec) {
 					var retval = 1;
 					if (pxPerSec >= 25 * 100) {
@@ -328,7 +260,7 @@
 					}
 					return retval;
 				};
-				
+
 				function primaryLabelInterval(pxPerSec) {
 					var retval = 1;
 					if (pxPerSec >= 25 * 100) {
@@ -350,93 +282,67 @@
 					}
 					return retval;
 				};
-				
+
 				function secondaryLabelInterval(pxPerSec) {
 					// draw one every 10s as an example
 					return Math.floor(10 / timeInterval(pxPerSec));
 				};
 				this.$nextTick(() => {
-						console.log(WaveSurfer)
-						if (this.wavesurfer == null) {
-							this.wavesurfer = WaveSurfer.create({
-								// 应该在其中绘制波形的CSS选择器或HTML元素。这是唯一必需的参数。
-								container: document.querySelector('#waveformm'),
-								// 光标的填充颜色，指示播放头的位置。
-								cursorColor: '#2C3E50',
-									// 更改波形容器的背景颜色。
-									backgroundColor: 'white',
-									// 光标后的波形填充颜色。
-									waveColor: 'blue',
-									height: '200',
-									// 光标后面的波形部分的填充色。当progressColor和waveColor相同时，完全不渲染进度波
-									progressColor: '#66B1FF',
-									backend: 'MediaElement',
-									// 音频播放时间轴
-									mediaControls: true,
-									// 播放音频的速度
-									audioRate: '1',
-									//fillparent:false,
-									// 插件：此教程配置了光标插件和时间轴插件
-									plugins: [
-										// 时间轴插件
-										Timeline.create({
-											container: '#wave-timelinee',
-											formatTimeCallback: formatTimeCallback,
-											timeInterval: timeInterval,
-											primaryLabelInterval: primaryLabelInterval,
-											secondaryLabelInterval: secondaryLabelInterval,
-											primaryColor: 'blue',
-											secondaryColor: 'red',
-											primaryFontColor: 'blue',
-											secondaryFontColor: 'red',
-										}),
-										// 光标插件
-										CursorPlugin.create({
-											showTime: true,
-											opacity: 1,
-											customShowTimeStyle: {
-												'background-color': '#0098FF',
-												color: '#fff',
-												padding: '4px',
-												'font-size': '10px',
-											},
-										}),
-									],
-								});
-							this.wavesurfer.on('error', function(e) {
-								console.warn(e);
-							});
-							
-						}
-						
-						this.wavesurfer.load(path);
-						// this.value = this.wavesurfer.getVolume() * 100
-					})
-					// this.showViewer = true
-				// fabric.Image.fromURL(this.baseurl + src, function(image) {
-				// 	var tmp_w = image.width
-				// 	var tmp_h = image.height
-				// 	var xRate = that.canvas.width / image.width
-				// 	var yRate = that.canvas.height / image.height
-				// 	var setRate = xRate < yRate ? xRate : yRate
-				// 	tmp_w = tmp_w * setRate
-				// 	tmp_h = tmp_h * setRate
-				// 	var left = xRate < yRate ? 0 : (that.canvas.width - tmp_w) / 2
-				// 	var top = xRate < yRate ? (that.canvas.height - tmp_h) / 2 : 0
-				// 	image.scale(setRate)
-				// 	that.canvas.add(
-				// 		image.set({
-				// 			id: 'abc',
-				// 			left: left,
-				// 			top: top,
-				// 			selectable: false,
-				// 		})
-				// 	)
-				// })
-				
-			},
-			plays() {
-				this.wavesurfer.playPause()
+					// console.log(WaveSurfer)
+					if (this.wavesurfer == null) {
+						this.wavesurfer = WaveSurfer.create({
+							// 应该在其中绘制波形的CSS选择器或HTML元素。这是唯一必需的参数。
+							container: document.querySelector('#waveformm'),
+							// 光标的填充颜色，指示播放头的位置。
+							cursorColor: '#2C3E50',
+							// 更改波形容器的背景颜色。
+							backgroundColor: 'white',
+							// 光标后的波形填充颜色。
+							waveColor: 'blue',
+							height: '200',
+							// 光标后面的波形部分的填充色。当progressColor和waveColor相同时，完全不渲染进度波
+							progressColor: '#66B1FF',
+							backend: 'MediaElement',
+							// 音频播放时间轴
+							mediaControls: true,
+							// 播放音频的速度
+							audioRate: '1',
+							//fillparent:false,
+							// 插件：此教程配置了光标插件和时间轴插件
+							plugins: [
+								// 时间轴插件
+								Timeline.create({
+									container: '#wave-timelinee',
+									formatTimeCallback: formatTimeCallback,
+									timeInterval: timeInterval,
+									primaryLabelInterval: primaryLabelInterval,
+									secondaryLabelInterval: secondaryLabelInterval,
+									primaryColor: 'blue',
+									secondaryColor: 'red',
+									primaryFontColor: 'blue',
+									secondaryFontColor: 'red',
+								}),
+								// 光标插件
+								CursorPlugin.create({
+									showTime: true,
+									opacity: 1,
+									customShowTimeStyle: {
+										'background-color': '#0098FF',
+										color: '#fff',
+										padding: '4px',
+										'font-size': '10px',
+									},
+								}),
+							],
+						});
+						this.wavesurfer.on('error', function(e) {
+							console.warn(e);
+						});
+
+					}
+
+					this.wavesurfer.load(path);
+				})
 			},
 			// 后退，
 			rew() {
@@ -450,20 +356,15 @@
 			replay() {
 				this.wavesurfer.stop()
 			},
-			// 设置音量：
-			setVolume(val) {
-				this.wavesurfer.setVolume(val / 100)
-			},
 			// 指定播放
 			appointPlay() {
 				this.wavesurfer.play([this.appointTime, ])
 			},
-			zzoom(val){
-				
-					console.log("here")
-				    this.wavesurfer.zoom(this.zoomval/0.01);
-					
-					console.log(this.zoomval/0.01)
+			zzoom(val) {
+				console.log("here")
+				this.wavesurfer.zoom(this.zoomval / 0.01);
+
+				console.log(this.zoomval / 0.01)
 			},
 			preCarouselChange(key1, key2) {
 				var info = {}
@@ -473,13 +374,13 @@
 				this.save(info)
 			},
 			carouselChange(key1, key2) {
-				// this.current_tag = { label_id: '', name: '', color: '', id: '' }
 				let index = this.currentImg.order // % this.group_num
 				if (key1 === 2) {
 					console.log('向右滑动，下一个图片')
 					if (index === this.picTableData.length - 1) bus.$emit('nextPicTable', index)
 					else {
 						this.currentImg = this.picTableData[index + 1]
+						console.log(this.currentImg)
 						this.getDetailInfo(this.currentImg.id)
 						this.showImage(this.currentImg.src)
 						bus.$emit('nextPic', index + 1)
@@ -529,17 +430,20 @@
 			},
 		},
 		created() {
-			console.log("sdsdssdssd")
+			//console.log("sdsdssdssd")
 			let that = this
 			bus.$on('sendToClassify', (note) => {
 				that.current_tag = note
 				that.current_tag.label_id = note.id
 				that.changeTag = true
 			})
+			bus.$on('savePic', (data) => {
+				that.save(data)
+				
+			})
 			bus.$on('updatePicTableData', (data) => {
 				that.picTableData = data.picTableData
 				if (data.if_new_pic) {
-					// console.log('updatePicTableData')
 					//查找该图片标签等信息（详细信息）简单信息就是列表，只包括数据库单个表的信息，详细信息指的是标签等信息
 					that.currentImg = {
 						offset: that.picTableData[0].offset,
@@ -547,18 +451,12 @@
 						id: that.picTableData[0].id,
 						src: that.picTableData[0].src,
 					}
-
-					that.getDetailInfo(that.currentImg.id)
 					that.showImage(that.currentImg.src)
 				}
 			})
-			bus.$on('savePic', (data) => {
-				that.save(data)
-			})
 		},
 		mounted() {
-			// this.canvas = new fabric.Canvas('canvas', {})
-			
+
 		},
 	}
 </script>

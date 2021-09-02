@@ -201,7 +201,7 @@
 				let that = this
 				if (!this.changeTag) {
 					if (instruct.type === 'carouselChange') {
-						that.carouselChange(instruct.args1, instruct.args2, this.currentImg.src)
+						that.carouselChange(instruct.args1, instruct.args2)
 					}
 					if (instruct.type === 'changeImg') {
 						that.currentImg = {
@@ -260,7 +260,7 @@
 						})
 						//保存成功后根据type类型调用函数
 						if (instruct.type === 'carouselChange') {
-							that.carouselChange(instruct.args1, instruct.args2, this.currentImg.src)
+							that.carouselChange(instruct.args1, instruct.args2)
 						}
 						if (instruct.type === 'changeImg') {
 							that.currentImg = {
@@ -444,6 +444,8 @@
 								that.taglabel.name ='未标注';
 							}else{
 							that.taglabel.name =x['tag'] ;
+							var y = document.getElementByClassName('wavesurfer-region')
+							console.log(y)
 							}
 							that.changeTag = true;
 						});
@@ -583,12 +585,10 @@
 				this.taglabel.name ='-';
 				this.save(info)
 			},
-			carouselChange(key1, key2, src) {
-				var path = this.baseurl + src;
+			carouselChange(key1, key2) {
 				let index = this.currentImg.order //% this.group_num
 				if (key1 === 2) {
 					console.log('向右滑动，下一个图片')
-					console.log(src)
 					// this.regionlist[path] = {
 					// 	...this.wavesurfer.regions.list
 					// };
@@ -601,7 +601,6 @@
 				}
 				if (key1 === 0) {
 					console.log('向左滑动，上一个图片')
-					console.log(src)
 					// this.regionlist[path] = {
 					// 	...this.wavesurfer.regions.list
 					// };

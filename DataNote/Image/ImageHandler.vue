@@ -66,7 +66,7 @@ import ImageClassifyPage from './ImageClassifyPage'
 import ImageList from './ImageList.vue'
 import ImageDetectionPage from './ImageDetectionPage.vue'
 import { alertBox } from '@/utils/alertBox.js'
-import bus from '@/views/project/DataNote/bus'
+import bus from '@/views/project/DataNote/Image/bus'
 export default {
   name: 'ImageHandler',
   components: {

@@ -85,7 +85,7 @@
 		alertBox
 	} from '@/utils/alertBox.js'
 	import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
-	import bus from './bus.js'
+	import bus from '../bus.js'
 	export default {
 		name: 'AudioList',
 		components: {
@@ -172,10 +172,6 @@
 			},
 			//查看大图
 			showBig(audio) {
-				// let that = this
-				// alertBox('展示大图', 'info', this)
-				// this.src_list = this.baseurl + pic.src
-				// document.getElementById("typediv1").style.display = "";
 				function formatTimeCallback(seconds, pxPerSec) {
 					seconds = Number(seconds);
 					var minutes = Math.floor(seconds / 60);

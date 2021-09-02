@@ -55,7 +55,7 @@
 	import {
 		alertBox
 	} from '@/utils/alertBox.js'
-	import bus from '@/views/project/DataNote/Audio/bus'
+	import bus from './bus.js'
 	export default {
 		name: 'AudioHandler',
 		components: {
